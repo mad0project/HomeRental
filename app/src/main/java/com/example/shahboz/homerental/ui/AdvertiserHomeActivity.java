@@ -1,10 +1,11 @@
 package com.example.shahboz.homerental.ui;
 
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.res.Configuration;
-import android.support.v4.view.GravityCompat;
+import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -15,7 +16,7 @@ import android.widget.ListView;
 
 import com.example.shahboz.homerental.R;
 
-public class AdvertiserHomeActivity extends ActionBarActivity {
+public class AdvertiserHomeActivity extends ActionBarActivity implements ApartmentItemFragment.OnFragmentInteractionListener{
 
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
@@ -34,6 +35,12 @@ public class AdvertiserHomeActivity extends ActionBarActivity {
             setSupportActionBar(toolbar);
         }
         initDrawer();
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ApartmentItemFragment ap = ApartmentItemFragment.newInstance("bir","ikki");
+        ft.add(R.id.main_content,ap);
+        ft.commit();
+
     }
 
     private void initView() {
@@ -116,6 +123,12 @@ public class AdvertiserHomeActivity extends ActionBarActivity {
         boolean drawerOpen = shouldGoInvisible;
         menu.findItem(R.id.search).setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
+
+    }
+
+
+    @Override
+    public void onFragmentInteraction(String id) {
 
     }
 }

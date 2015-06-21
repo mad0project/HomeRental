@@ -15,16 +15,10 @@
 
         <!-- activity view -->
         <RelativeLayout
+            android:id="@+id/main_content"
             android:layout_width="match_parent"
             android:background="#fff"
             android:layout_height="match_parent">
-
-            <TextView
-                android:layout_centerInParent="true"
-                android:layout_width="wrap_content"
-                android:textColor="#000"
-                android:text="Activity Content"
-                android:layout_height="wrap_content" />
         </RelativeLayout>
 
         <!-- navigation drawer -->
