@@ -15,6 +15,14 @@ public class MyApp extends Application {
     public static final String USER_TYPE = "user_type";
     public static final String STUDENT = "student";
     public static final String ADVERTISER = "advertiser";
+    public static final String LOCATION = "location";
+    public static final String COST = "cost";
+    public static final String SIZE = "size";
+    public static final String PHOTOS = "photos";
+    public static final String DESCRIPTION = "description";
+    public static final String TAGS = "tags";
+    public static final String APARTMENTS = "apartments";
+
 
     public void onCreate() {
         super.onCreate();

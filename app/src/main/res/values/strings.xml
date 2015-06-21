@@ -30,4 +30,5 @@
     <string name="progress_signup">Signing up</string>
     <string name="title_activity_advertiser_home">Advertiser</string>
     <string name="search_title">Search</string>
+    <string name="icon_content_description">List view icon</string>
 </resources>

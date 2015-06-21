@@ -4,6 +4,7 @@ import com.example.shahboz.homerental.MyApp;
 import com.parse.ParseClassName;
 import com.parse.ParseUser;
 
+import java.util.List;
 
 
 /**
@@ -18,5 +19,15 @@ public class MyUser extends ParseUser {
 
     public String getType(){
         return getString(MyApp.USER_TYPE);
+    }
+
+    public List<Apartment> getApartmentList(){
+        return getList(MyApp.APARTMENTS);
+    }
+    public void setApartmentList(List<Apartment> list){
+        put(MyApp.APARTMENTS,list);
+    }
+    public void addApartment(Apartment a){
+        add(MyApp.APARTMENTS,a);
     }
 }

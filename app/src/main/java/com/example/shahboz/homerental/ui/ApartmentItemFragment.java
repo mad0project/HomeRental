@@ -14,6 +14,8 @@ import android.widget.TextView;
 
 import com.example.shahboz.homerental.R;
 import com.example.shahboz.homerental.data.Apartment;
+import com.example.shahboz.homerental.data.MyUser;
+import com.parse.ParseUser;
 
 import java.util.List;
 
@@ -28,14 +30,6 @@ import java.util.List;
  */
 public class ApartmentItemFragment extends Fragment implements AbsListView.OnItemClickListener {
     private List<Apartment> apartmentList;
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
 
     private OnFragmentInteractionListener mListener;
 
@@ -53,10 +47,6 @@ public class ApartmentItemFragment extends Fragment implements AbsListView.OnIte
     // TODO: Rename and change types of parameters
     public static ApartmentItemFragment newInstance(String param1, String param2) {
         ApartmentItemFragment fragment = new ApartmentItemFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
         return fragment;
     }
 
@@ -70,15 +60,8 @@ public class ApartmentItemFragment extends Fragment implements AbsListView.OnIte
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
-
-        // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<Apartment>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, apartmentList);
+        apartmentList = ((MyUser) ParseUser.getCurrentUser()).getApartmentList();
+        mAdapter = new ListItemAdapter(getActivity(),apartmentList);
     }
 
     @Override
@@ -88,7 +71,7 @@ public class ApartmentItemFragment extends Fragment implements AbsListView.OnIte
 
         // Set the adapter
         mListView = (AbsListView) view.findViewById(android.R.id.list);
-        ((AdapterView<ListAdapter>) mListView).setAdapter(mAdapter);
+        mListView.setAdapter(mAdapter);
 
         // Set OnItemClickListener so we can be notified on item clicks
         mListView.setOnItemClickListener(this);
