@@ -135,14 +135,37 @@
                 android:layout_marginTop="4dp"/>
 
 
-            <AutoCompleteTextView
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <AutoCompleteTextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:hint="Type Address"
+                    android:id="@+id/address"
+                    android:layout_marginLeft="6dp"
+                    android:layout_marginRight="6dp"
+                    android:layout_marginTop="4dp"
+                    android:layout_weight="0.75"
+                    />
+
+                <Button
+
+                    style="?android:attr/buttonStyleSmall"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.25"
+                    android:text="Map"
+                    android:id="@+id/show_map" />
+            </LinearLayout>
+
+            <Button
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Type Address"
-                android:id="@+id/address"
-                android:layout_marginLeft="6dp"
-                android:layout_marginRight="6dp"
-                android:layout_marginTop="4dp"/>
+                android:text="Add Apartment"
+                android:id="@+id/add_apartment" />
 
         </LinearLayout>
 

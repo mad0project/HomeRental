@@ -48,12 +48,15 @@ import android.widget.Toast;
 
 import com.example.shahboz.homerental.R;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesNotAvailableException;
+import com.google.android.gms.common.GooglePlayServicesRepairableException;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
 import com.google.android.gms.location.places.Places;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 
@@ -79,12 +82,14 @@ import java.util.regex.Pattern;
  * A simple {@link Fragment} subclass.
  */
 public class AddApartment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+    private static final int PLACE_PICKER_REQUEST = 1500;
     private static final String TAG = "PlaceAutocomplete";
     private ExpandableGridView photos;
     private List<String> myList;
     private String mCurrentPhotoPath;
     private GoogleApiClient mGoogleApiClient;
     private EditText edit;
+    private LatLng query_location;
 
     private PlaceAutocompleteAdapter mAdapter;
     private static final LatLngBounds BOUNDS_GREATER_SYDNEY = new LatLngBounds(
@@ -216,6 +221,23 @@ public class AddApartment extends Fragment implements GoogleApiClient.Connection
                 mGoogleApiClient, BOUNDS_GREATER_SYDNEY, null);
         address.setAdapter(mAdapter);
 
+        Button showMap = (Button)rootView.findViewById(R.id.show_map);
+        showMap.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                builder.setLatLngBounds(new LatLngBounds(query_location,query_location));
+                Context context = getActivity().getApplicationContext();
+                try {
+                    startActivityForResult(builder.build(context), PLACE_PICKER_REQUEST);
+                } catch (GooglePlayServicesRepairableException e) {
+                    e.printStackTrace();
+                } catch (GooglePlayServicesNotAvailableException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
         return rootView;
     }
     private AdapterView.OnItemClickListener mAutocompleteClickListener
@@ -229,7 +251,17 @@ public class AddApartment extends Fragment implements GoogleApiClient.Connection
               */
             final PlaceAutocompleteAdapter.PlaceAutocomplete item = mAdapter.getItem(position);
             final String placeId = String.valueOf(item.placeId);
-            Log.i(TAG, "Autocomplete item selected: " + item.description);
+            Places.GeoDataApi.getPlaceById(mGoogleApiClient, placeId)
+                    .setResultCallback(new ResultCallback<PlaceBuffer>() {
+                        @Override
+                        public void onResult(PlaceBuffer places) {
+                            if (places.getStatus().isSuccess()) {
+                                final Place myPlace = places.get(0);
+                                query_location = myPlace.getLatLng();
+                            }
+                            places.release();
+                        }
+                    });
 
 
         }
@@ -263,7 +295,13 @@ public class AddApartment extends Fragment implements GoogleApiClient.Connection
                     photos.invalidateViews();
                 }
                 break;
-
+            case PLACE_PICKER_REQUEST:
+                if(resultCode == Activity.RESULT_OK){
+                    Place place = PlacePicker.getPlace(data, getActivity());
+                    String toastMsg = String.format("Place: %s", place.getName());
+                    Toast.makeText(getActivity(), toastMsg, Toast.LENGTH_LONG).show();
+                }
+                break;
         }
     }
     private void takePicture()
