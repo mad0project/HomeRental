@@ -6,6 +6,10 @@
         <item name="android:windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
+        <item name="android:actionBarItemBackground">@drawable/ab_item_background</item>
+        <item name="actionBarItemBackground">@drawable/ab_item_background</item>
+
+
     </style>
 
     <style name="DrawerArrowStyle" parent="Widget.AppCompat.DrawerArrowToggle">

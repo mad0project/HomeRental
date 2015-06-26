@@ -5,7 +5,8 @@
         <item name="colorPrimary">@color/primaryColor</item>
         <item name="colorPrimaryDark">@color/primaryColorDark</item>
         <item name="android:statusBarColor">@color/primaryColorDark</item>
-
+        <item name="android:actionBarItemBackground">@drawable/ab_item_background</item>
+        <item name="actionBarItemBackground">@drawable/ab_item_background</item>
         <item name="drawerArrowStyle">@style/DrawerArrowStyle</item>
     </style>
 

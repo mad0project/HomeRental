@@ -14,6 +14,7 @@ import android.widget.ListView;
 
 import com.example.shahboz.homerental.MainActivity;
 import com.example.shahboz.homerental.R;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 public class StudentHomeActivity extends ActionBarActivity {
 
@@ -98,4 +99,6 @@ public class StudentHomeActivity extends ActionBarActivity {
         super.onBackPressed();
 
     }
+
+
 }

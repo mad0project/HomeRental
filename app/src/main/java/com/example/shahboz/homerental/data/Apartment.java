@@ -61,6 +61,23 @@ public class Apartment extends ParseObject {
     public void addTag(String tag){
         add(MyApp.TAGS,tag);
     }
-
+    public void setCity(String s){
+        put(MyApp.CITY, s);
+    }
+    public String getCity(){
+        return getString(MyApp.CITY);
+    }
+    public String getStreetName(){
+        return getString(MyApp.STREET_NAME);
+    }
+    public void setStreetName(String s){
+        put(MyApp.STREET_NAME,s);
+    }
+    public int getHomeNumber(){
+        return getInt(MyApp.HOME_NUMBER);
+    }
+    public void setHomeNumber(int num){
+        put(MyApp.HOME_NUMBER,num);
+    }
 }
 

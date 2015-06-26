@@ -12,6 +12,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
 
+import com.example.shahboz.homerental.MyApp;
 import com.example.shahboz.homerental.R;
 import com.example.shahboz.homerental.data.Apartment;
 import com.example.shahboz.homerental.data.MyUser;
@@ -29,7 +30,7 @@ import java.util.List;
  * interface.
  */
 public class ApartmentItemFragment extends Fragment implements AbsListView.OnItemClickListener {
-    private List<Apartment> apartmentList;
+
 
     private OnFragmentInteractionListener mListener;
 
@@ -42,10 +43,10 @@ public class ApartmentItemFragment extends Fragment implements AbsListView.OnIte
      * The Adapter which will be used to populate the ListView/GridView with
      * Views.
      */
-    private ListAdapter mAdapter;
+    private ListItemAdapter mAdapter;
 
-    // TODO: Rename and change types of parameters
-    public static ApartmentItemFragment newInstance(String param1, String param2) {
+
+    public static ApartmentItemFragment newInstance() {
         ApartmentItemFragment fragment = new ApartmentItemFragment();
         return fragment;
     }
@@ -60,8 +61,10 @@ public class ApartmentItemFragment extends Fragment implements AbsListView.OnIte
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        apartmentList = ((MyUser) ParseUser.getCurrentUser()).getApartmentList();
-        mAdapter = new ListItemAdapter(getActivity(),apartmentList);
+        mAdapter = new ListItemAdapter(getActivity());
+        mAdapter.setTextKey(MyApp.DESCRIPTION);
+        mAdapter.setImageKey(MyApp.PHOTOS);
+
     }
 
     @Override
@@ -97,6 +100,12 @@ public class ApartmentItemFragment extends Fragment implements AbsListView.OnIte
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+    }
+
+    @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
@@ -129,7 +138,7 @@ public class ApartmentItemFragment extends Fragment implements AbsListView.OnIte
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
+
         public void onFragmentInteraction(String id);
     }
 

@@ -4,6 +4,7 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -12,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.shahboz.homerental.R;
@@ -37,7 +39,7 @@ public class AdvertiserHomeActivity extends ActionBarActivity implements Apartme
         initDrawer();
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ApartmentItemFragment ap = ApartmentItemFragment.newInstance("bir","ikki");
+        ApartmentItemFragment ap = ApartmentItemFragment.newInstance();
         ft.add(R.id.main_content,ap);
         ft.commit();
 
@@ -112,6 +114,17 @@ public class AdvertiserHomeActivity extends ActionBarActivity implements Apartme
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
+        int id = item.getItemId();
+        if(id == R.id.post){
+            AddApartment ad = AddApartment.newInstance();
+            FragmentManager fm = getFragmentManager();
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.replace(R.id.main_content,ad)
+                    .addToBackStack(null)
+                    .commit();
+            
+
+        }
         if (drawerToggle.onOptionsItemSelected(item)) {
             return true;
         }
@@ -121,7 +134,8 @@ public class AdvertiserHomeActivity extends ActionBarActivity implements Apartme
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         boolean drawerOpen = shouldGoInvisible;
-        menu.findItem(R.id.search).setVisible(!drawerOpen);
+        MenuItem post = menu.findItem(R.id.post);
+        post.setVisible(!drawerOpen);
         return super.onPrepareOptionsMenu(menu);
 
     }

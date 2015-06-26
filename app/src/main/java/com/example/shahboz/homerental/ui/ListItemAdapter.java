@@ -4,25 +4,38 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ImageView;
+
 import android.widget.TextView;
 
+import com.example.shahboz.homerental.MyApp;
 import com.example.shahboz.homerental.R;
 import com.example.shahboz.homerental.data.Apartment;
+import com.parse.ParseFile;
+import com.parse.ParseImageView;
 
-import java.util.List;
+import com.parse.ParseQuery;
+import com.parse.ParseQueryAdapter;
+
+
 
 /**
  * Created by shahboz on 21/06/2015.
  */
-public class ListItemAdapter extends ArrayAdapter<Apartment> {
-    public ListItemAdapter(Context context, List<Apartment> items) {
-        super(context, R.layout.listview_item, items);
+public class ListItemAdapter extends ParseQueryAdapter<Apartment> {
+    public ListItemAdapter(Context context) {
+        // Use the QueryFactory to construct a PQA that will only show
+        // Todos marked as high-pri
+        super(context, new ParseQueryAdapter.QueryFactory<Apartment>() {
+            public ParseQuery create() {
+                ParseQuery query = new ParseQuery("Apartment");
+                query.whereEqualTo(MyApp.APARTMENTS, true);
+                return query;
+            }
+        });
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getItemView(Apartment apartment, View convertView, ViewGroup parent) {
         ViewHolder viewHolder;
 
         if(convertView == null) {
@@ -32,7 +45,7 @@ public class ListItemAdapter extends ArrayAdapter<Apartment> {
 
             // initialize the view holder
             viewHolder = new ViewHolder();
-            viewHolder.ivIcon = (ImageView) convertView.findViewById(R.id.ivIcon);
+            viewHolder.ivIcon = (ParseImageView) convertView.findViewById(R.id.ivIcon);
             viewHolder.tvTitle = (TextView) convertView.findViewById(R.id.tvTitle);
             viewHolder.tvDescription = (TextView) convertView.findViewById(R.id.tvDescription);
             convertView.setTag(viewHolder);
@@ -41,11 +54,17 @@ public class ListItemAdapter extends ArrayAdapter<Apartment> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        // TODO : update view by getting info from Apartment
-        Apartment item = getItem(position);
-        //viewHolder.ivIcon.setImageDrawable(item.icon);
-        //viewHolder.tvTitle.setText(item.title);
-        //viewHolder.tvDescription.setText(item.description);
+
+
+        ParseFile photoFile = apartment.getPhotos().get(0);
+        if(photoFile != null){
+            viewHolder.ivIcon.setParseFile(photoFile);
+            viewHolder.ivIcon.loadInBackground();
+        }
+
+        viewHolder.tvTitle.setText(apartment.getCity() + ", " + apartment.getStreetName() + ", " + apartment.getHomeNumber());
+        viewHolder.tvDescription.setText(apartment.getDescription());
+
 
         return convertView;
     }
@@ -57,7 +76,7 @@ public class ListItemAdapter extends ArrayAdapter<Apartment> {
      * @see "http://developer.android.com/training/improving-layouts/smooth-scrolling.html#ViewHolder"
      */
     private static class ViewHolder {
-        ImageView ivIcon;
+        ParseImageView ivIcon;
         TextView tvTitle;
         TextView tvDescription;
     }

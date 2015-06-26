@@ -22,6 +22,9 @@ public class MyApp extends Application {
     public static final String DESCRIPTION = "description";
     public static final String TAGS = "tags";
     public static final String APARTMENTS = "apartments";
+    public static final String CITY = "city";
+    public static final String STREET_NAME = "street_name";
+    public static final String HOME_NUMBER = "home_number";
 
 
     public void onCreate() {
