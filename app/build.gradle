@@ -1,14 +1,7 @@
 apply plugin: 'com.android.application'
 
 android {
-    signingConfigs {
-        config {
-            keyAlias 'shahbozhomerentalkey'
-            keyPassword 'shr4274'
-            storeFile file('D:/STUDY/master/4th_semester/01PFPOV-Mobile_application_development/myCode/homerental.jks')
-            storePassword 'hr4274'
-        }
-    }
+
     compileSdkVersion 21
     buildToolsVersion '21.1.1'
     defaultConfig {
@@ -24,7 +17,7 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            signingConfig signingConfigs.config
+
         }
     }
 }
